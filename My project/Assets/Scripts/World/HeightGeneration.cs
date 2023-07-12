@@ -9,7 +9,7 @@ public class HeightGeneration : MonoBehaviour
     [SerializeField] private int size;
     [SerializeField] private int biomeCount;
     [SerializeField] private float scale;
-    [SerializeField] private BiomeData[] biomeDatas;
+    [SerializeField] private BiomeSettings biomeSettings;
     [SerializeField] private int blendRadius;
     [SerializeField] private bool useTexture;
     [SerializeField] private float waterHeight;
@@ -38,7 +38,7 @@ public class HeightGeneration : MonoBehaviour
         {
             int tries = 0;
 
-            BiomeData data = biomeDatas[Random.Range(0,biomeDatas.Length)];
+            BiomeData data = biomeSettings.GetWeightedRandom();
 
             while (tries < 200)
             {
@@ -51,7 +51,7 @@ public class HeightGeneration : MonoBehaviour
                 foreach (Biome b in biomes)
                 {
                     float dist = b.DistanceToPoint(new Vector2Int(x, y));
-                    if (dist < b.data.minDist + data.minDist)
+                    if (dist < b.data.minimumDistanceToOtherBiome + data.minimumDistanceToOtherBiome)
                     {
                         toClose = true;
                         break;
